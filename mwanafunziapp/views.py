@@ -6,8 +6,13 @@ from .serializers import UserSerializer, LoginSerializer
 from django.contrib import auth
 from rest_framework import status
 from django.conf import settings
-
 import jwt
+from .models import Category, Product
+from .serializers import CategorySerializer, ProductSerializer
+from rest_framework import generics
+
+
+
 
 
 # Create your views here.
@@ -37,3 +42,22 @@ class LoginView(GenericAPIView):
             return Response(data, status=status.HTTP_200_OK)
             # SEND RES
         return Response({'detail': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
+
+
+
+class ListCategory(generics.ListCreateAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+
+class DetailCategory(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+
+class ListProduct(generics.ListCreateAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+class DetailProduct(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
